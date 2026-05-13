@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contatti – FileShift</title>
+  <meta name="description" content="Contatta il team di FileShift per supporto, segnalazioni o collaborazioni.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#0f0f0f;--ink-2:#3a3a3a;--ink-3:#7a7a7a;--paper:#faf9f6;--paper-2:#f0ede6;--paper-3:#e5e0d6;--accent:#d4500a;--mono:"DM Mono",monospace;--serif:"Fraunces",Georgia,serif;--r:10px}
+    body{font-family:var(--mono);background:var(--paper);color:var(--ink);line-height:1.7}
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,249,246,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--paper-3);padding:0 clamp(1rem,5vw,4rem)}
+    .nav-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-mark{width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center}
+    .logo-mark i{font-size:18px;color:var(--paper)}
+    .logo-text{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-0.3px}
+    .back-link{font-size:13px;color:var(--ink-3);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .15s}
+    .back-link:hover{color:var(--ink)}
+    .content{max-width:720px;margin:0 auto;padding:clamp(2rem,6vw,4rem) clamp(1rem,5vw,2rem)}
+    .page-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:block}
+    h1{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:700;letter-spacing:-1px;margin-bottom:.75rem;line-height:1.1}
+    .subtitle{font-size:15px;color:var(--ink-2);margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--paper-3)}
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:3rem}
+    .contact-card{background:white;border:1px solid var(--paper-3);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,box-shadow .15s}
+    .contact-card:hover{border-color:var(--ink);box-shadow:0 6px 20px rgba(15,15,15,0.07)}
+    .card-icon{width:40px;height:40px;border-radius:8px;background:var(--paper-2);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent)}
+    .card-title{font-size:14px;font-weight:500;color:var(--ink)}
+    .card-desc{font-size:12px;color:var(--ink-3);line-height:1.5}
+    .card-link{font-size:13px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:4px}
+    .card-link:hover{text-decoration:underline}
+    h2{font-family:var(--serif);font-size:1.25rem;font-weight:700;margin:0 0 1rem;letter-spacing:-.3px}
+    .faq-mini{display:flex;flex-direction:column;gap:10px}
+    .faq-mini-item{background:var(--paper-2);border-radius:var(--r);padding:1rem 1.25rem}
+    .faq-mini-q{font-size:13px;font-weight:500;margin-bottom:5px}
+    .faq-mini-a{font-size:12px;color:var(--ink-3);line-height:1.6}
+    footer{background:var(--paper-2);border-top:1px solid var(--paper-3);padding:1.5rem clamp(1rem,5vw,4rem);text-align:center;font-size:12px;color:var(--ink-3);margin-top:4rem}
+    footer a{color:var(--ink-3)}footer a:hover{color:var(--ink)}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="logo-mark"><i class="ti ti-transform"></i></div>
+      <span class="logo-text">FileShift</span>
+    </a>
+    <a href="/" class="back-link"><i class="ti ti-arrow-left"></i> Torna alla home</a>
+  </div>
+</nav>
+<main class="content">
+  <span class="page-label">Contatti</span>
+  <h1>Come possiamo aiutarti?</h1>
+  <p class="subtitle">Siamo qui per supporto, segnalazioni di bug, suggerimenti o qualsiasi altra cosa.</p>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="card-icon"><i class="ti ti-headset"></i></div>
+      <div class="card-title">Supporto generale</div>
+      <div class="card-desc">Problemi con una conversione, domande sul servizio o richieste di aiuto.</div>
+      <a href="mailto:info@fileshift.it" class="card-link"><i class="ti ti-mail" style="font-size:14px"></i> info@fileshift.it</a>
+    </div>
+    <div class="contact-card">
+      <div class="card-icon"><i class="ti ti-bug"></i></div>
+      <div class="card-title">Segnala un bug</div>
+      <div class="card-desc">Hai trovato un errore o un formato che non funziona? Faccelo sapere.</div>
+      <a href="mailto:bug@fileshift.it" class="card-link"><i class="ti ti-mail" style="font-size:14px"></i> bug@fileshift.it</a>
+    </div>
+    <div class="contact-card">
+      <div class="card-icon"><i class="ti ti-lock"></i></div>
+      <div class="card-title">Privacy e dati</div>
+      <div class="card-desc">Domande sul trattamento dei dati, richieste GDPR o segnalazioni sulla privacy.</div>
+      <a href="mailto:privacy@fileshift.it" class="card-link"><i class="ti ti-mail" style="font-size:14px"></i> privacy@fileshift.it</a>
+    </div>
+  </div>
+
+  <h2>Domande frequenti</h2>
+  <div class="faq-mini">
+    <div class="faq-mini-item">
+      <div class="faq-mini-q">Quanto tempo ci vuole per ricevere una risposta?</div>
+      <div class="faq-mini-a">Di solito rispondiamo entro 24-48 ore nei giorni lavorativi.</div>
+    </div>
+    <div class="faq-mini-item">
+      <div class="faq-mini-q">Posso richiedere un nuovo formato di conversione?</div>
+      <div class="faq-mini-a">Assolutamente sì — scrivici a info@fileshift.it con il formato che ti serve e lo valutiamo per una prossima versione.</div>
+    </div>
+    <div class="faq-mini-item">
+      <div class="faq-mini-q">Ho un problema con un file specifico — cosa invio?</div>
+      <div class="faq-mini-a">Descrivi il formato del file, il formato di destinazione e l'errore che vedi. Non serve inviare il file — la conversione avviene nel browser e non abbiamo accesso ai tuoi file.</div>
+    </div>
+  </div>
+</main>
+<footer>
+  <p>© 2025 FileShift · <a href="/privacy">Privacy Policy</a> · <a href="/termini">Termini di Servizio</a> · <a href="/cookie">Cookie Policy</a> · <a href="/contatti">Contatti</a></p>
+</footer>
+</body>
+</html>

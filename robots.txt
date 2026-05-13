@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Blocca risorse non utili per Google
+Disallow: /404.html
+
+Sitemap: https://fileshift.io/sitemap.xml

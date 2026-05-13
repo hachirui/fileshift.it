@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FileShift – Converti Immagini, Audio e Video Online Gratis</title>
+  <meta name="description" content="Converti immagini, audio e video online gratis nel browser. PNG in PDF, MP4 in MP3, JPG in WEBP e oltre 50 conversioni. Nessun upload, nessuna registrazione.">
+  <meta name="keywords" content="convertire file online, converti png in pdf, mp4 in mp3, jpg in webp, convertitore audio video gratis, ffmpeg online">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="FileShift">
+  <link rel="canonical" href="https://fileshift.io/">
+  <meta name="theme-color" content="#0f0f0f">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fileshift.io/">
+  <meta property="og:title" content="FileShift – Converti File Online Gratis, Nel Browser">
+  <meta property="og:description" content="Immagini, audio e video convertiti direttamente nel tuo browser. Nessun upload, nessun server, 100% privato.">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="FileShift">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FileShift – Converti File Online Gratis">
+  <meta name="twitter:description" content="Immagini, audio e video nel browser. Nessun upload, nessun server.">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"FileShift","url":"https://fileshift.io","description":"Converti immagini, audio e video online gratis direttamente nel browser.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"2341"},"inLanguage":"it","featureList":["Conversione immagini PNG JPG WEBP PDF","Conversione audio MP3 WAV OGG FLAC AAC","Conversione video MP4 WEBM AVI GIF MKV","Elaborazione nel browser — nessun upload","Nessuna registrazione richiesta","100% gratuito"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"I miei file vengono caricati su un server?","acceptedAnswer":{"@type":"Answer","text":"No. FileShift usa WebAssembly (FFmpeg.wasm) per elaborare tutto direttamente nel tuo browser. I tuoi file non lasciano mai il tuo dispositivo."}},{"@type":"Question","name":"Come si converte un MP4 in MP3?","acceptedAnswer":{"@type":"Answer","text":"Carica il file MP4, seleziona la categoria Audio, scegli MP3 come formato e clicca Converti. Il file viene estratto e scaricato in pochi secondi, senza upload."}},{"@type":"Question","name":"È necessario registrarsi?","acceptedAnswer":{"@type":"Answer","text":"No. FileShift è completamente gratuito e non richiede alcuna registrazione."}}]}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0f0f0f;--ink-2:#3a3a3a;--ink-3:#7a7a7a;
+      --paper:#faf9f6;--paper-2:#f0ede6;--paper-3:#e5e0d6;
+      --accent:#d4500a;--accent-light:#fdf0ea;
+      --mono:'DM Mono',monospace;--serif:'Fraunces',Georgia,serif;
+      --r:10px;--rl:16px;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--mono);background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden}
+    .skip-link{position:absolute;top:-999px;left:1rem;background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:var(--r);font-size:14px;z-index:9999}
+    .skip-link:focus{top:1rem}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,249,246,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--paper-3);padding:0 clamp(1rem,5vw,4rem)}
+    .nav-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-mark{width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center}
+    .logo-mark i{font-size:18px;color:var(--paper)}
+    .logo-text{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-0.3px}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+    .nav-links a{font-size:13px;color:var(--ink-2);text-decoration:none;transition:color .15s}
+    .nav-links a:hover{color:var(--ink)}
+
+    /* HERO */
+    .hero{max-width:1180px;margin:0 auto;padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem) 3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-light);padding:5px 12px;border-radius:20px;margin-bottom:1.2rem}
+    h1{font-family:var(--serif);font-size:clamp(2.4rem,4.5vw,3.8rem);font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:var(--ink);margin-bottom:1.2rem}
+    h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+    .hero-desc{font-size:15px;color:var(--ink-2);line-height:1.7;margin-bottom:2rem;max-width:440px}
+    .hero-stats{display:flex;gap:2rem;margin-bottom:2rem}
+    .stat{display:flex;flex-direction:column}
+    .stat-num{font-family:var(--serif);font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1}
+    .stat-lbl{font-size:11px;color:var(--ink-3);letter-spacing:.05em;margin-top:3px}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:8px}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;border:1px solid var(--paper-3);color:var(--ink-2);background:var(--paper)}
+    .badge i{font-size:13px;color:var(--accent)}
+
+    /* CONVERTER CARD */
+    .converter-card{background:var(--ink);border-radius:var(--rl);padding:2rem;box-shadow:0 24px 60px rgba(15,15,15,0.2);position:relative;overflow:hidden}
+    .converter-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,80,10,0.25) 0%,transparent 70%);pointer-events:none}
+    .conv-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(250,249,246,0.4);margin-bottom:14px}
+
+    /* CATEGORY TABS */
+    .cat-tabs{display:flex;gap:6px;margin-bottom:16px}
+    .cat-tab{flex:1;padding:8px 4px;border:1px solid rgba(255,255,255,0.12);border-radius:var(--r);background:transparent;color:rgba(250,249,246,0.5);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+    .cat-tab i{font-size:18px}
+    .cat-tab:hover{border-color:rgba(255,255,255,0.3);color:rgba(250,249,246,0.8)}
+    .cat-tab.active{background:rgba(212,80,10,0.2);border-color:rgba(212,80,10,0.5);color:var(--paper)}
+
+    .drop-area{border:1.5px dashed rgba(250,249,246,0.2);border-radius:var(--r);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:14px;position:relative;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .drop-area:hover{border-color:rgba(250,249,246,0.5);background:rgba(255,255,255,0.03)}
+    .drop-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .drop-icon{font-size:28px;color:rgba(250,249,246,0.35);margin-bottom:8px}
+    .drop-title{font-size:13px;font-weight:500;color:var(--paper);margin-bottom:3px}
+    .drop-sub{font-size:10px;color:rgba(250,249,246,0.4)}
+
+    .preview-wrap{margin-bottom:14px;display:none}
+    .preview-img{width:100%;border-radius:var(--r);max-height:100px;object-fit:cover}
+    .preview-audio{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.06);border-radius:var(--r)}
+    .preview-audio i{font-size:24px;color:var(--accent)}
+    .preview-audio .pa-info{display:flex;flex-direction:column}
+    .preview-audio .pa-name{font-size:12px;font-weight:500;color:var(--paper)}
+    .preview-audio .pa-meta{font-size:10px;color:rgba(250,249,246,0.4);margin-top:2px}
+
+    .fmt-row{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;margin-bottom:14px}
+    .fmt-group label{font-size:10px;color:rgba(250,249,246,0.4);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:5px}
+    .fmt-select{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:var(--r);color:var(--paper);font-family:var(--mono);font-size:13px;padding:9px 12px;width:100%;appearance:none;cursor:pointer}
+    .fmt-select:focus{outline:2px solid var(--accent);outline-offset:2px}
+    .arrow-sep{color:rgba(250,249,246,0.3);font-size:18px;text-align:center;padding-bottom:2px}
+
+    /* PROGRESS */
+    .progress-wrap{margin-bottom:14px;display:none}
+    .progress-label{font-size:11px;color:rgba(250,249,246,0.5);margin-bottom:6px;display:flex;justify-content:space-between}
+    .progress-bar-bg{background:rgba(255,255,255,0.1);border-radius:4px;height:6px;overflow:hidden}
+    .progress-bar-fill{height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width .3s}
+
+    .conv-btn{width:100%;padding:13px;background:var(--accent);color:white;border:none;border-radius:var(--r);font-family:var(--mono);font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s,transform .1s}
+    .conv-btn:hover{opacity:.88;transform:translateY(-1px)}
+    .conv-btn:active{transform:translateY(0)}
+    .conv-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+    .conv-btn i{font-size:17px}
+    .conv-note{font-size:10px;color:rgba(250,249,246,0.25);text-align:center;margin-top:10px}
+
+    .status-bar{display:none;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r);font-size:12px;margin-bottom:12px}
+    .status-bar.success{display:flex;background:rgba(26,140,60,0.15);color:#4ade80;border:1px solid rgba(26,140,60,0.3)}
+    .status-bar.error{display:flex;background:rgba(212,80,10,0.12);color:#fb923c;border:1px solid rgba(212,80,10,0.3)}
+    .status-bar.info{display:flex;background:rgba(255,255,255,0.06);color:rgba(250,249,246,0.7);border:1px solid rgba(255,255,255,0.1)}
+
+    /* SECTIONS */
+    .section{max-width:1180px;margin:0 auto;padding:3rem clamp(1rem,5vw,4rem)}
+    .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem;border-bottom:1px solid var(--paper-3);padding-bottom:1rem}
+    h2{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.5px}
+    .see-all{font-size:12px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px}
+    .see-all:hover{text-decoration:underline}
+    .conv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+    .conv-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:white;border:1px solid var(--paper-3);border-radius:var(--r);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s,box-shadow .15s;cursor:pointer}
+    .conv-item:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,15,15,0.08)}
+    .conv-icon{width:36px;height:36px;border-radius:8px;background:var(--accent-light);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+    .conv-icon i{font-size:17px;color:var(--accent)}
+    .conv-icon.aud{background:#eaf5ea}.conv-icon.aud i{color:#1a8c3c}
+    .conv-icon.vid{background:#f5eaf9}.conv-icon.vid i{color:#8c1a9e}
+    .conv-name{font-size:13px;font-weight:500;color:var(--ink)}
+    .conv-desc{font-size:11px;color:var(--ink-3);margin-top:1px}
+
+    .steps-section{background:var(--paper-2);border-top:1px solid var(--paper-3);border-bottom:1px solid var(--paper-3)}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+    .step{background:white;border:1px solid var(--paper-3);border-radius:var(--rl);padding:1.5rem}
+    .step-num{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--paper-3);line-height:1;margin-bottom:12px}
+    .step-title{font-size:14px;font-weight:500;margin-bottom:6px}
+    .step-desc{font-size:12px;color:var(--ink-3);line-height:1.6}
+
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .cat-card{background:white;border:1px solid var(--paper-3);border-radius:var(--rl);padding:1.5rem;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s;cursor:pointer}
+    .cat-card:hover{border-color:var(--ink);box-shadow:0 8px 24px rgba(15,15,15,0.07)}
+    .cat-card-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:22px}
+    .ci-img{background:#FDF0EA;color:var(--accent)}.ci-aud{background:#eaf5ea;color:#1a8c3c}.ci-vid{background:#f5eaf9;color:#8c1a9e}
+    .cat-card-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:6px}
+    .cat-card-desc{font-size:12px;color:var(--ink-3);line-height:1.5;margin-bottom:12px}
+    .fmt-tags{display:flex;flex-wrap:wrap;gap:5px}
+    .fmt-tag{font-size:10px;padding:3px 8px;border:1px solid var(--paper-3);border-radius:4px;color:var(--ink-2)}
+
+    .faq-list{display:flex;flex-direction:column;gap:10px}
+    .faq-item{background:white;border:1px solid var(--paper-3);border-radius:var(--r);overflow:hidden}
+    .faq-q{width:100%;text-align:left;padding:16px 20px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .faq-q i{font-size:16px;color:var(--ink-3);transition:transform .2s;flex-shrink:0}
+    .faq-q.open i{transform:rotate(180deg)}
+    .faq-a{font-size:13px;color:var(--ink-2);line-height:1.7;padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+    .faq-a.open{max-height:200px;padding:0 20px 16px}
+
+    .trust-bar{background:var(--ink);color:var(--paper);padding:1.5rem clamp(1rem,5vw,4rem)}
+    .trust-inner{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2.5rem}
+    .trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(250,249,246,0.65)}
+    .trust-item i{font-size:20px;color:var(--accent)}
+
+    footer{background:var(--paper-2);border-top:1px solid var(--paper-3);padding:2.5rem clamp(1rem,5vw,4rem)}
+    .footer-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+    .footer-brand p{font-size:12px;color:var(--ink-3);line-height:1.6;margin-top:8px;max-width:280px}
+    .footer-col h3{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;color:var(--ink-2)}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+    .footer-col a{font-size:12px;color:var(--ink-3);text-decoration:none;transition:color .15s}
+    .footer-col a:hover{color:var(--ink)}
+    .footer-bottom{border-top:1px solid var(--paper-3);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:11px;color:var(--ink-3);max-width:1180px;margin:0 auto}
+    .footer-bottom a{color:var(--ink-3);text-decoration:none}
+    .footer-bottom a:hover{color:var(--ink)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fadeUp .5s ease both}
+    .fade-up-1{animation-delay:.1s}.fade-up-2{animation-delay:.2s}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @media(max-width:768px){
+      .hero{grid-template-columns:1fr;gap:2.5rem}
+      .footer-inner{grid-template-columns:1fr 1fr}
+      .nav-links{display:none}
+    }
+    @media(max-width:480px){.footer-inner{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Vai al contenuto principale</a>
+
+<nav role="navigation" aria-label="Navigazione principale">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="FileShift - home">
+      <div class="logo-mark"><i class="ti ti-transform" aria-hidden="true"></i></div>
+      <span class="logo-text">FileShift</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/immagini">Immagini</a></li>
+      <li><a href="/audio">Audio</a></li>
+      <li><a href="/video">Video</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/contatti">Contatti</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="fade-up fade-up-1">
+      <div class="hero-eyebrow"><i class="ti ti-bolt"></i>100% nel browser · Zero upload · Zero server</div>
+      <h1 id="hero-title">Converti <em>qualsiasi</em><br>file, gratis<br>e nel browser.</h1>
+      <p class="hero-desc">Immagini, audio e video convertiti direttamente nel tuo dispositivo grazie a WebAssembly. I tuoi file non lasciano mai il browser.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-lbl">formati</span></div>
+        <div class="stat"><span class="stat-num">0€</span><span class="stat-lbl">costo</span></div>
+        <div class="stat"><span class="stat-num">0</span><span class="stat-lbl">upload</span></div>
+      </div>
+      <div class="hero-badges">
+        <span class="badge"><i class="ti ti-shield-check" aria-hidden="true"></i>File mai caricati su server</span>
+        <span class="badge"><i class="ti ti-brand-webassembly" aria-hidden="true"></i>Powered by WebAssembly</span>
+        <span class="badge"><i class="ti ti-user-off" aria-hidden="true"></i>Nessun account</span>
+      </div>
+    </div>
+
+    <div class="fade-up fade-up-2">
+      <div class="converter-card" role="region" aria-label="Strumento di conversione file">
+        <div class="conv-label">Scegli categoria e converti</div>
+
+        <!-- Category tabs -->
+        <div class="cat-tabs" role="tablist" aria-label="Categoria file">
+          <button class="cat-tab active" role="tab" aria-selected="true" data-cat="image" aria-controls="panel-image">
+            <i class="ti ti-photo" aria-hidden="true"></i>Immagine
+          </button>
+          <button class="cat-tab" role="tab" aria-selected="false" data-cat="audio" aria-controls="panel-audio">
+            <i class="ti ti-music" aria-hidden="true"></i>Audio
+          </button>
+          <button class="cat-tab" role="tab" aria-selected="false" data-cat="video" aria-controls="panel-video">
+            <i class="ti ti-movie" aria-hidden="true"></i>Video
+          </button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="drop-area" id="dropZone" role="button" tabindex="0" aria-label="Trascina o seleziona un file">
+          <input type="file" id="fileInput" accept="image/*,audio/*,video/*" aria-label="Seleziona file">
+          <i class="ti ti-cloud-upload drop-icon" id="dropIcon" aria-hidden="true"></i>
+          <div class="drop-title" id="dropTitle">Trascina il file qui</div>
+          <div class="drop-sub" id="dropSub">PNG, JPG, WEBP, MP3, MP4, WAV e altri</div>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-wrap" id="previewWrap">
+          <img id="previewImg" class="preview-img" alt="Anteprima" style="display:none">
+          <div class="preview-audio" id="previewAV" style="display:none">
+            <i class="ti ti-file-music" id="previewAVIcon" aria-hidden="true"></i>
+            <div class="pa-info">
+              <span class="pa-name" id="previewName">–</span>
+              <span class="pa-meta" id="previewMeta">–</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Format selectors -->
+        <div class="fmt-row">
+          <div class="fmt-group">
+            <label for="fromFmt">Da</label>
+            <select class="fmt-select" id="fromFmt" aria-label="Formato sorgente"></select>
+          </div>
+          <div class="arrow-sep" aria-hidden="true"><i class="ti ti-arrows-right-left"></i></div>
+          <div class="fmt-group">
+            <label for="toFmt">A</label>
+            <select class="fmt-select" id="toFmt" aria-label="Formato destinazione"></select>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-label">
+            <span id="progressLabel">Elaborazione...</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+        </div>
+
+        <!-- Status -->
+        <div class="status-bar" id="statusBar"><i class="ti ti-check" id="statusIcon" aria-hidden="true"></i><span id="statusText"></span></div>
+
+        <button class="conv-btn" id="convBtn" disabled>
+          <i class="ti ti-transform" aria-hidden="true"></i>
+          Converti ora — è gratis
+        </button>
+        <p class="conv-note"><i class="ti ti-lock" style="font-size:10px;vertical-align:-1px" aria-hidden="true"></i> Elaborazione locale via WebAssembly — nessun upload.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR -->
+  <section class="section" aria-labelledby="popular-title">
+    <div class="section-head">
+      <h2 id="popular-title">Conversioni più cercate</h2>
+      <a href="/tutti-i-formati" class="see-all">Vedi tutte <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    <div class="conv-grid" role="list">
+      <div class="conv-item" role="listitem" data-cat="image" data-from="PNG" data-to="image/jpeg"><div class="conv-icon"><i class="ti ti-photo" aria-hidden="true"></i></div><div><div class="conv-name">PNG → JPG</div><div class="conv-desc">riduzione dimensione</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="image" data-from="PNG" data-to="pdf"><div class="conv-icon"><i class="ti ti-file-type-pdf" aria-hidden="true"></i></div><div><div class="conv-name">PNG → PDF</div><div class="conv-desc">immagine in documento</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="image" data-from="JPG" data-to="image/webp"><div class="conv-icon"><i class="ti ti-photo" aria-hidden="true"></i></div><div><div class="conv-name">JPG → WEBP</div><div class="conv-desc">ottimizzato per web</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="audio" data-from="video/mp4" data-to="audio/mp3"><div class="conv-icon aud"><i class="ti ti-movie" aria-hidden="true"></i></div><div><div class="conv-name">MP4 → MP3</div><div class="conv-desc">estrai audio da video</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="audio" data-from="audio/wav" data-to="audio/mp3"><div class="conv-icon aud"><i class="ti ti-music" aria-hidden="true"></i></div><div><div class="conv-name">WAV → MP3</div><div class="conv-desc">comprimi audio</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="video" data-from="video/mp4" data-to="video/webm"><div class="conv-icon vid"><i class="ti ti-movie" aria-hidden="true"></i></div><div><div class="conv-name">MP4 → WEBM</div><div class="conv-desc">ottimizzato per web</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="audio" data-from="audio/mp3" data-to="audio/wav"><div class="conv-icon aud"><i class="ti ti-music" aria-hidden="true"></i></div><div><div class="conv-name">MP3 → WAV</div><div class="conv-desc">audio lossless</div></div></div>
+      <div class="conv-item" role="listitem" data-cat="video" data-from="video/mp4" data-to="video/gif"><div class="conv-icon vid"><i class="ti ti-gif" aria-hidden="true"></i></div><div><div class="conv-name">MP4 → GIF</div><div class="conv-desc">video in animazione</div></div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <div class="steps-section">
+    <section class="section" aria-labelledby="steps-title">
+      <div class="section-head"><h2 id="steps-title">Come funziona</h2></div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-num" aria-hidden="true">01</div><div class="step-title">Carica il file</div><div class="step-desc">Trascina immagine, audio o video nell'area di caricamento. Nessun limite di formato.</div></div>
+        <div class="step"><div class="step-num" aria-hidden="true">02</div><div class="step-title">FFmpeg si carica</div><div class="step-desc">La prima volta scarica FFmpeg.wasm (~30MB, poi in cache). Audio e video vengono elaborati localmente con la stessa potenza di FFmpeg desktop.</div></div>
+        <div class="step"><div class="step-num" aria-hidden="true">03</div><div class="step-title">Converti e scarica</div><div class="step-desc">Premi Converti e attendi pochi secondi. Il file convertito si scarica direttamente nel tuo dispositivo.</div></div>
+        <div class="step"><div class="step-num" aria-hidden="true">04</div><div class="step-title">Privacy totale</div><div class="step-desc">Tutto avviene nel browser via WebAssembly. Nessun file viene mai inviato a server esterni.</div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="section" aria-labelledby="cat-title">
+    <div class="section-head"><h2 id="cat-title">Formati supportati</h2></div>
+    <div class="cat-grid">
+      <div class="cat-card" data-cat-click="image">
+        <div class="cat-card-icon ci-img"><i class="ti ti-photo" aria-hidden="true"></i></div>
+        <div class="cat-card-title">Immagini</div>
+        <div class="cat-card-desc">Canvas API nativa del browser. Conversione istantanea, qualità perfetta.</div>
+        <div class="fmt-tags"><span class="fmt-tag">PNG</span><span class="fmt-tag">JPG</span><span class="fmt-tag">WEBP</span><span class="fmt-tag">GIF</span><span class="fmt-tag">BMP</span><span class="fmt-tag">→PDF</span></div>
+      </div>
+      <div class="cat-card" data-cat-click="audio">
+        <div class="cat-card-icon ci-aud"><i class="ti ti-music" aria-hidden="true"></i></div>
+        <div class="cat-card-title">Audio</div>
+        <div class="cat-card-desc">FFmpeg.wasm: la stessa potenza di FFmpeg desktop, nel browser.</div>
+        <div class="fmt-tags"><span class="fmt-tag">MP3</span><span class="fmt-tag">WAV</span><span class="fmt-tag">OGG</span><span class="fmt-tag">FLAC</span><span class="fmt-tag">AAC</span><span class="fmt-tag">M4A</span></div>
+      </div>
+      <div class="cat-card" data-cat-click="video">
+        <div class="cat-card-icon ci-vid"><i class="ti ti-movie" aria-hidden="true"></i></div>
+        <div class="cat-card-title">Video</div>
+        <div class="cat-card-desc">Converti video, estrai audio, crea GIF animate. Tutto offline.</div>
+        <div class="fmt-tags"><span class="fmt-tag">MP4</span><span class="fmt-tag">WEBM</span><span class="fmt-tag">AVI</span><span class="fmt-tag">MKV</span><span class="fmt-tag">MOV</span><span class="fmt-tag">GIF</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-title">
+    <div class="section-head"><h2 id="faq-title">Domande frequenti</h2></div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-1">I miei file vengono caricati su un server?<i class="ti ti-chevron-down" aria-hidden="true"></i></button>
+        <div class="faq-a" id="faq-1">No. FileShift usa Canvas API per le immagini e FFmpeg.wasm per audio e video — tutto gira nel tuo browser tramite WebAssembly. I tuoi file non lasciano mai il tuo dispositivo.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-2">Come si converte un MP4 in MP3?<i class="ti ti-chevron-down" aria-hidden="true"></i></button>
+        <div class="faq-a" id="faq-2">Seleziona la categoria Video, carica il file MP4, scegli MP3 come formato di destinazione e clicca Converti. La prima volta FFmpeg.wasm si scarica (~30MB), poi rimane in cache e le conversioni successive sono immediate.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-3">Perché la prima conversione audio/video è più lenta?<i class="ti ti-chevron-down" aria-hidden="true"></i></button>
+        <div class="faq-a" id="faq-3">La prima volta viene scaricato FFmpeg compilato in WebAssembly (~30MB). Questo avviene una volta sola — le volte successive il browser lo carica dalla cache e la conversione parte quasi istantaneamente.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-4">C'è un limite alla dimensione del file?<i class="ti ti-chevron-down" aria-hidden="true"></i></button>
+        <div class="faq-a" id="faq-4">Non c'è un limite rigido, ma la conversione dipende dalla RAM disponibile nel tuo dispositivo. File fino a 500MB funzionano bene su computer desktop. Per file molto grandi su mobile, consigliamo di usare una connessione WiFi e un dispositivo con almeno 4GB di RAM.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust-bar" role="complementary" aria-label="Garanzie del servizio">
+    <div class="trust-inner">
+      <div class="trust-item"><i class="ti ti-shield-check" aria-hidden="true"></i><span>File mai caricati su server</span></div>
+      <div class="trust-item"><i class="ti ti-brand-webassembly" aria-hidden="true"></i><span>WebAssembly + FFmpeg</span></div>
+      <div class="trust-item"><i class="ti ti-currency-euro" aria-hidden="true"></i><span>100% gratuito</span></div>
+      <div class="trust-item"><i class="ti ti-user-off" aria-hidden="true"></i><span>Nessun account</span></div>
+      <div class="trust-item"><i class="ti ti-device-mobile" aria-hidden="true"></i><span>Funziona su mobile</span></div>
+    </div>
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="logo-mark" style="width:28px;height:28px"><i class="ti ti-transform" style="font-size:15px;color:var(--paper)" aria-hidden="true"></i></div>
+        <span style="font-family:var(--serif);font-size:18px;font-weight:700">FileShift</span>
+      </div>
+      <p>Il convertitore di file online più privato. Tutto nel browser via WebAssembly, gratis, per sempre.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Conversioni</h3>
+      <ul>
+        <li><a href="/converti/png-in-jpg">PNG in JPG</a></li>
+        <li><a href="/converti/mp4-in-mp3">MP4 in MP3</a></li>
+        <li><a href="/converti/jpg-in-webp">JPG in WEBP</a></li>
+        <li><a href="/converti/wav-in-mp3">WAV in MP3</a></li>
+        <li><a href="/tutti-i-formati">Tutti i formati</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legale</h3>
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/termini">Termini di Servizio</a></li>
+        <li><a href="/cookie">Cookie Policy</a></li>
+        <li><a href="/contatti">Contatti</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 FileShift. Tutti i diritti riservati.</span>
+    <span>Fatto con <i class="ti ti-heart" style="color:var(--accent);vertical-align:-2px" aria-label="amore"></i> in Italia · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">robots.txt</a></span>
+  </div>
+</footer>
+
+<script>
+// ── FORMAT DEFINITIONS ──
+const FORMATS = {
+  image: {
+    accept: 'image/*',
+    from: [
+      {label:'PNG', mime:'image/png', ext:'png'},
+      {label:'JPG', mime:'image/jpeg', ext:'jpg'},
+      {label:'WEBP', mime:'image/webp', ext:'webp'},
+      {label:'GIF', mime:'image/gif', ext:'gif'},
+      {label:'BMP', mime:'image/bmp', ext:'bmp'},
+    ],
+    to: [
+      {label:'JPG', mime:'image/jpeg', ext:'jpg'},
+      {label:'PNG', mime:'image/png', ext:'png'},
+      {label:'WEBP', mime:'image/webp', ext:'webp'},
+      {label:'PDF', mime:'pdf', ext:'pdf'},
+    ]
+  },
+  audio: {
+    accept: 'audio/*,video/*',
+    from: [
+      {label:'MP3', mime:'audio/mp3', ext:'mp3'},
+      {label:'WAV', mime:'audio/wav', ext:'wav'},
+      {label:'OGG', mime:'audio/ogg', ext:'ogg'},
+      {label:'FLAC', mime:'audio/flac', ext:'flac'},
+      {label:'AAC', mime:'audio/aac', ext:'aac'},
+      {label:'MP4 (estrai audio)', mime:'video/mp4', ext:'mp4'},
+    ],
+    to: [
+      {label:'MP3', ffext:'mp3'},
+      {label:'WAV', ffext:'wav'},
+      {label:'OGG', ffext:'ogg'},
+      {label:'FLAC', ffext:'flac'},
+      {label:'AAC', ffext:'aac'},
+    ]
+  },
+  video: {
+    accept: 'video/*',
+    from: [
+      {label:'MP4', mime:'video/mp4', ext:'mp4'},
+      {label:'WEBM', mime:'video/webm', ext:'webm'},
+      {label:'AVI', mime:'video/avi', ext:'avi'},
+      {label:'MOV', mime:'video/quicktime', ext:'mov'},
+      {label:'MKV', mime:'video/x-matroska', ext:'mkv'},
+    ],
+    to: [
+      {label:'MP4', ffext:'mp4'},
+      {label:'WEBM', ffext:'webm'},
+      {label:'MP3 (solo audio)', ffext:'mp3'},
+      {label:'GIF', ffext:'gif'},
+      {label:'AVI', ffext:'avi'},
+    ]
+  }
+};
+
+let currentCat = 'image';
+let currentFile = null;
+let ffmpegLoaded = false;
+let ffmpegLoading = false;
+
+// ── POPULATE SELECTS ──
+function populateSelects(cat) {
+  const f = FORMATS[cat];
+  const fromSel = document.getElementById('fromFmt');
+  const toSel = document.getElementById('toFmt');
+  fromSel.innerHTML = f.from.map(o => `<option value="${o.mime||o.ext}">${o.label}</option>`).join('');
+  toSel.innerHTML = f.to.map(o => `<option value="${o.mime||o.ffext}">${o.label}</option>`).join('');
+  document.getElementById('fileInput').accept = f.accept;
+}
+
+// ── TABS ──
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    currentCat = tab.dataset.cat;
+    populateSelects(currentCat);
+    clearFile();
+  });
+});
+document.querySelectorAll('[data-cat-click]').forEach(card => {
+  card.addEventListener('click', () => {
+    const cat = card.dataset.catClick;
+    document.querySelectorAll('.cat-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    const tab = document.querySelector(`.cat-tab[data-cat="${cat}"]`);
+    if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+    currentCat = cat; populateSelects(cat);
+    document.querySelector('.converter-card').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+});
+
+// ── POPULAR ITEMS ──
+document.querySelectorAll('.conv-item[data-cat]').forEach(item => {
+  item.addEventListener('click', () => {
+    const cat = item.dataset.cat;
+    document.querySelectorAll('.cat-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    const tab = document.querySelector(`.cat-tab[data-cat="${cat}"]`);
+    if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+    currentCat = cat; populateSelects(cat);
+    setTimeout(() => {
+      const fromSel = document.getElementById('fromFmt');
+      const toSel = document.getElementById('toFmt');
+      const fromVal = item.dataset.from;
+      const toVal = item.dataset.to;
+      [...fromSel.options].forEach((o,i) => { if(o.value === fromVal) fromSel.selectedIndex = i; });
+      [...toSel.options].forEach((o,i) => { if(o.value === toVal) toSel.selectedIndex = i; });
+    }, 50);
+    document.querySelector('.converter-card').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+});
+
+// ── FILE HANDLING ──
+function setFile(file) {
+  currentFile = file;
+  const ext = file.name.split('.').pop().toUpperCase();
+  document.getElementById('dropTitle').textContent = file.name;
+  document.getElementById('dropSub').textContent = ext + ' · ' + (file.size > 1048576 ? (file.size/1048576).toFixed(1)+'MB' : Math.round(file.size/1024)+'KB');
+  document.getElementById('dropIcon').className = 'ti ti-file-check drop-icon';
+  document.getElementById('dropZone').style.borderColor = 'rgba(212,80,10,0.5)';
+  document.getElementById('convBtn').disabled = false;
+  hideStatus();
+
+  const pw = document.getElementById('previewWrap');
+  const pi = document.getElementById('previewImg');
+  const pav = document.getElementById('previewAV');
+  pw.style.display = 'block';
+
+  if (currentCat === 'image') {
+    pav.style.display = 'none';
+    pi.style.display = 'block';
+    const reader = new FileReader();
+    reader.onload = e => pi.src = e.target.result;
+    reader.readAsDataURL(file);
+  } else {
+    pi.style.display = 'none';
+    pav.style.display = 'flex';
+    document.getElementById('previewAVIcon').className = currentCat === 'audio' ? 'ti ti-file-music' : 'ti ti-file-video';
+    document.getElementById('previewName').textContent = file.name;
+    document.getElementById('previewMeta').textContent = ext + ' · ' + (file.size > 1048576 ? (file.size/1048576).toFixed(1)+'MB' : Math.round(file.size/1024)+'KB');
+  }
+}
+
+function clearFile() {
+  currentFile = null;
+  document.getElementById('dropTitle').textContent = 'Trascina il file qui';
+  document.getElementById('dropSub').textContent = 'PNG, JPG, WEBP, MP3, MP4, WAV e altri';
+  document.getElementById('dropIcon').className = 'ti ti-cloud-upload drop-icon';
+  document.getElementById('dropZone').style.borderColor = '';
+  document.getElementById('convBtn').disabled = true;
+  document.getElementById('previewWrap').style.display = 'none';
+  hideStatus(); resetProgress();
+  const btn = document.getElementById('convBtn');
+  btn.innerHTML = '<i class="ti ti-transform"></i> Converti ora — è gratis';
+}
+
+const fileInput = document.getElementById('fileInput');
+const dropZone = document.getElementById('dropZone');
+fileInput.addEventListener('change', e => { if(e.target.files[0]) setFile(e.target.files[0]); });
+['dragover','dragenter'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.style.borderColor='rgba(212,80,10,0.6)'; }));
+dropZone.addEventListener('dragleave', () => { if(!currentFile) dropZone.style.borderColor=''; });
+dropZone.addEventListener('drop', e => { e.preventDefault(); if(e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+
+// ── STATUS / PROGRESS ──
+function showStatus(type, msg, icon='ti-check') {
+  const bar = document.getElementById('statusBar');
+  bar.className = 'status-bar ' + type;
+  document.getElementById('statusIcon').className = 'ti ' + icon;
+  document.getElementById('statusText').textContent = msg;
+}
+function hideStatus() { document.getElementById('statusBar').className = 'status-bar'; document.getElementById('statusBar').style.display=''; }
+function showProgress(label, pct) {
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('progressLabel').textContent = label;
+  document.getElementById('progressPct').textContent = Math.round(pct) + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+function resetProgress() { document.getElementById('progressWrap').style.display = 'none'; document.getElementById('progressFill').style.width = '0%'; }
+
+// ── DOWNLOAD HELPER ──
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+// ── IMAGE CONVERSION (Canvas API) ──
+function convertImage() {
+  const toMime = document.getElementById('toFmt').value;
+  const baseName = currentFile.name.replace(/\.[^.]+$/, '');
+  const img = new Image();
+  const url = URL.createObjectURL(currentFile);
+  img.onload = () => {
+    if (toMime === 'pdf') {
+      convertImageToPDF(img, baseName);
+    } else {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      if (toMime === 'image/jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); }
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const ext = toMime.split('/')[1];
+        downloadBlob(blob, baseName + '.' + ext);
+        showStatus('success', 'Conversione completata! Download avviato.');
+        resetBtn();
+      }, toMime, 0.92);
+    }
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => { showStatus('error', 'Errore nel leggere il file immagine.', 'ti-alert-circle'); resetBtn(); };
+  img.src = url;
+}
+
+function convertImageToPDF(img, baseName) {
+  showStatus('info', 'Caricamento libreria PDF...', 'ti-loader-2');
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload = () => {
+    const {jsPDF} = window.jspdf;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+    canvas.getContext('2d').drawImage(img, 0, 0);
+    const data = canvas.toDataURL('image/jpeg', 0.95);
+    const pdf = new jsPDF({orientation: img.naturalWidth > img.naturalHeight ? 'landscape' : 'portrait', unit:'px', format:[img.naturalWidth, img.naturalHeight]});
+    pdf.addImage(data, 'JPEG', 0, 0, img.naturalWidth, img.naturalHeight);
+    pdf.save(baseName + '.pdf');
+    showStatus('success', 'PDF creato! Download avviato.');
+    resetBtn();
+  };
+  s.onerror = () => { showStatus('error', 'Errore nel caricare jsPDF.', 'ti-alert-circle'); resetBtn(); };
+  document.head.appendChild(s);
+}
+
+// ── FFMPEG.WASM (Audio + Video) ──
+let ffmpegInstance = null;
+
+async function loadFFmpeg() {
+  if (ffmpegInstance) return ffmpegInstance;
+  showStatus('info', 'Caricamento FFmpeg.wasm (~10MB, solo la prima volta)...', 'ti-loader-2');
+  showProgress('Download FFmpeg.wasm', 10);
+
+  return new Promise((resolve, reject) => {
+    // FFmpeg 0.10.x — non richiede SharedArrayBuffer, compatibile con GitHub Pages
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js';
+    script.onload = async () => {
+      try {
+        showProgress('Inizializzazione FFmpeg', 40);
+        const { createFFmpeg, fetchFile } = window.FFmpeg;
+        const ff = createFFmpeg({
+          log: false,
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
+          progress: ({ratio}) => {
+            if (ratio > 0) showProgress('Conversione in corso', 40 + ratio * 55);
+          }
+        });
+        await ff.load();
+        showProgress('FFmpeg pronto', 100);
+        ffmpegInstance = {ff, fetchFile};
+        resolve(ffmpegInstance);
+      } catch(e) { reject(e); }
+    };
+    script.onerror = () => reject(new Error('Impossibile caricare FFmpeg. Controlla la connessione.'));
+    document.head.appendChild(script);
+  });
+}
+
+async function convertWithFFmpeg() {
+  const toExt = document.getElementById('toFmt').value;
+  const baseName = currentFile.name.replace(/\.[^.]+$/, '');
+  const inputExt = currentFile.name.split('.').pop().toLowerCase();
+  const inputName = 'input.' + inputExt;
+  const outputName = 'output.' + toExt;
+
+  try {
+    const {ff, fetchFile} = await loadFFmpeg();
+    showProgress('Lettura file...', 42);
+    ff.FS('writeFile', inputName, await fetchFile(currentFile));
+    showProgress('Conversione...', 50);
+
+    // Build FFmpeg args based on output
+    let args = ['-i', inputName];
+    if (toExt === 'mp3') args.push('-codec:a', 'libmp3lame', '-q:a', '2');
+    else if (toExt === 'ogg') args.push('-codec:a', 'libvorbis', '-q:a', '4');
+    else if (toExt === 'gif') args.push('-vf', 'fps=10,scale=480:-1:flags=lanczos', '-loop', '0');
+    else if (toExt === 'mp4') args.push('-codec:v', 'libx264', '-codec:a', 'aac', '-strict', 'experimental');
+    else if (toExt === 'webm') args.push('-codec:v', 'libvpx', '-codec:a', 'libvorbis');
+    args.push(outputName);
+
+    await ff.run(...args);
+    showProgress('Download...', 98);
+    const data = ff.FS('readFile', outputName);
+    const blob = new Blob([data.buffer]);
+    downloadBlob(blob, baseName + '.' + toExt);
+    ff.FS('unlink', inputName);
+    ff.FS('unlink', outputName);
+    showStatus('success', `Convertito in ${toExt.toUpperCase()}! Download avviato.`);
+    resetProgress();
+    resetBtn();
+  } catch(err) {
+    showStatus('error', 'Errore conversione: ' + err.message, 'ti-alert-circle');
+    resetProgress(); resetBtn();
+  }
+}
+
+// ── MAIN CONVERT ──
+document.getElementById('convBtn').addEventListener('click', () => {
+  if (!currentFile) return;
+  const btn = document.getElementById('convBtn');
+  btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> In corso...';
+  btn.disabled = true;
+  hideStatus();
+
+  if (currentCat === 'image') {
+    convertImage();
+  } else {
+    convertWithFFmpeg();
+  }
+});
+
+function resetBtn() {
+  const btn = document.getElementById('convBtn');
+  btn.innerHTML = '<i class="ti ti-download"></i> Scarica di nuovo';
+  btn.disabled = false;
+}
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isOpen = btn.classList.contains('open');
+    document.querySelectorAll('.faq-q').forEach(b => {
+      b.classList.remove('open'); b.setAttribute('aria-expanded','false');
+      document.getElementById(b.getAttribute('aria-controls')).classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('open'); btn.setAttribute('aria-expanded','true');
+      document.getElementById(btn.getAttribute('aria-controls')).classList.add('open');
+    }
+  });
+});
+
+// ── INIT ──
+populateSelects('image');
+</script>
+
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0f0f0f;color:#faf9f6;padding:1rem clamp(1rem,5vw,2rem);border-top:1px solid rgba(255,255,255,0.1)">
+  <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:250px">
+      <p style="font-size:13px;color:rgba(250,249,246,0.85);line-height:1.5;margin:0">
+        Usiamo cookie tecnici per il funzionamento del sito. Nessun cookie di profilazione.
+        <a href="/cookie" style="color:#d4500a;text-decoration:underline;margin-left:4px">Cookie Policy</a>
+      </p>
+    </div>
+    <div style="display:flex;gap:10px;flex-shrink:0">
+      <button id="cookieDecline" style="padding:8px 18px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;background:transparent;color:rgba(250,249,246,0.6);font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;transition:all .15s">Solo tecnici</button>
+      <button id="cookieAccept" style="padding:8px 18px;border:none;border-radius:8px;background:#d4500a;color:white;font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;font-weight:500;transition:opacity .15s">Accetta</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var consent = localStorage.getItem('fs_cookie_consent');
+  if(!consent){
+    document.getElementById('cookieBanner').style.display = 'block';
+  }
+  document.getElementById('cookieAccept').addEventListener('click', function(){
+    localStorage.setItem('fs_cookie_consent', 'accepted');
+    document.getElementById('cookieBanner').style.display = 'none';
+  });
+  document.getElementById('cookieDecline').addEventListener('click', function(){
+    localStorage.setItem('fs_cookie_consent', 'minimal');
+    document.getElementById('cookieBanner').style.display = 'none';
+  });
+})();
+</script>
+
+</body>
+</html>
