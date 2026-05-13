@@ -1,0 +1,17 @@
+# Cloudflare Pages / Netlify headers
+# Per GitHub Pages questi vanno configurati diversamente (vedi README)
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Headers necessari per FFmpeg.wasm (SharedArrayBuffer)
+/
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+/*.html
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
